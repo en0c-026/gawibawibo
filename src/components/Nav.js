@@ -25,7 +25,7 @@ const ConnectBox = ({ size, accountId, wallet, isLogged, explorerUrl }) => {
       ) :
       (
         <Button label={'Connect'} size='small' onClick={() => {
-          wallet.requestSignIn({ successUrl: 'localhost:3000' })
+          wallet.requestSignIn({ successUrl: 'https://en0c-026.github.io/gawibawibo/' })
         }} />
       )
     }
