@@ -48,7 +48,7 @@ const ResponsiveMenu = ({ toggleHistory, size }) => {
           onClickOutside={toggleMenu}
           onEsc={toggleMenu}
         >
-          <Box gap='xlarge' align='center' justify='center' flex>
+          <Box gap='xlarge' background='c1' align='center' pad={{top: 'xlarge'}} justify='start' flex>
             <Close onClick={toggleMenu} size='small' />
             <BoxClaim isLogged={isLogged} contract={contract} unclaimedAmount={unclaimedAmount} />
             <Button
