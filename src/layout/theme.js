@@ -5,10 +5,10 @@ export const theme = deepMerge(grommet, {
   global: {
     breakpoints: {
       small: {
-        value: 715,
+        value: 870,
       },
       medium: {
-        value: 890,
+        value: 1100,
       },
       large: {
         value: 1270,
@@ -64,9 +64,21 @@ export const theme = deepMerge(grommet, {
     }
   },
   radioButton: {
-    border: { 
+    border: {
       color: 'text',
       width: '1px',
+    },
+  },
+  notification: {
+    container: {
+      background: {
+        color: 'c3'
+      },
+      border: {
+        size: '1px',
+        style: 'dashed',
+        color: 'c2'
+      },
     },
   },
 });

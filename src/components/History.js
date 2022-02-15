@@ -10,7 +10,7 @@ export const History = () => {
   
   return <Box background='c1' align='center' pad='medium' gap='medium' border={{ color: 'c2' }} fill>
     <Text>my played moves</Text>
-    <Box gap='medium' direction={ size === 'small' ? 'column' : 'row'} align='center'>
+    <Box gap={size === 'small' ? 'small' : 'medium'} direction={ size === 'small' ? 'column' : 'row'} align='center'>
       <Text size='small'>id</Text>
       <Text size='small'>owner</Text>
       <Text size='small'>adversary</Text>

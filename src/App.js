@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Grommet, ResponsiveContext, Spinner, Image, Box } from 'grommet';
+import { Grommet, ResponsiveContext, Spinner, Image, Box, Card, Anchor, Text } from 'grommet';
+import { Close } from 'grommet-icons';
 import { theme } from './layout/theme';
 import { keyStores, connect, Near, WalletConnection, Contract } from 'near-api-js';
 import { useSnapshot } from 'valtio';
@@ -10,10 +11,13 @@ import FooterApp from './components/FooterApp';
 import { proxy } from 'valtio';
 import getConfig from './config';
 
-const initNear = async () => {
 
+const queryParams = new URLSearchParams(window.location.search);
+const initNear = async () => {
+  const env = localStorage.getItem('env') || 'testnet'
+  console.log(env)
   const keyStore = new keyStores.BrowserLocalStorageKeyStore();
-  const config = getConfig('testnet');
+  const config = getConfig(env);
 
   const client = await connect({ keyStore, ...config });
   const wallet = new WalletConnection(client, 'gawibawibo');
@@ -35,19 +39,23 @@ export const appState = proxy({
 
 
 function App() {
-  const [loading, setLoading] = useState(true)
-  const { themeMode} = useSnapshot(appState);
+  const [loading, setLoading] = useState(true);
+  const [hash, setHash] = useState({ exists: false, url: '' });
+
+  const { themeMode } = useSnapshot(appState);
   useEffect(() => {
     initNear().then(({ wallet, config }) => {
       appState.wallet = wallet;
       appState.env = config.networkId;
       appState.explorerUrl = config.explorerUrl;
+
       if (localStorage.getItem('gawibawibo_wallet_auth_key')) {
+
         appState.accountId = wallet.getAccountId()
         appState.isLogged = true;
         appState.contract = new Contract(
           wallet.account(),
-          'gawibawibo.en0c-test.testnet',
+          config.contractName,
           {
             changeMethods: ['new_move', 'cancel_move', 'withdraw', 'play_move'],
             viewMethods: ['moves_of', 'get_unplayed_moves', 'unclaimed_amount_of'],
@@ -56,10 +64,18 @@ function App() {
         wallet.account().getAccountBalance().then((_balance) => {
           appState.balance = _balance.total;
         })
+
         appState.contract.get_unplayed_moves().then(resp => appState.unplayedMoves = resp)
         appState.contract.unclaimed_amount_of({ account_id: appState.accountId }).then(resp => appState.unclaimedAmount = resp)
         appState.contract.moves_of({ account_id: appState.accountId }).then(resp => appState.historyMoves = resp)
 
+        const hashResponse = queryParams.get('transactionHashes');
+
+        if (hashResponse !== null) setHash({ exists: true, url: `${config.explorerUrl}/transactions/${hashResponse}` })
+        const timer = setTimeout(() => {
+          setHash({ exists: false, url: '' });
+        }, 25000);
+        return () => clearTimeout(timer);
       }
     })
   }, [])
@@ -70,7 +86,8 @@ function App() {
     }, 2500);
     return () => clearTimeout(timer);
   }, []);
-  
+
+
   return (
     <Grommet theme={theme} themeMode={themeMode} background='c1' full>
       <ResponsiveContext.Consumer>
@@ -79,16 +96,39 @@ function App() {
             {
               loading ?
                 (
-                  <Box align='center' pad={{top: 'xlarge'}} margin={{top: 'xlarge'}} flex='grow'>
-                  <Spinner animation={{ type: 'rotateRight', duration: 4000 }} size='xlarge'>
-                    <Image src='loading.png' />
-                  </Spinner>
+                  <Box align='center' pad={{ top: 'xlarge' }} margin={{ top: 'xlarge' }} flex='grow'>
+                    <Spinner animation={{ type: 'rotateRight', duration: 4000 }} size='xlarge'>
+                      <Image src='/gawibawibo/loading.png' />
+                    </Spinner>
                   </Box>
                 )
                 :
                 (
                   <>
                     <Nav />
+                    {
+                      hash.exists &&
+                      <Card
+                        align='center'
+                        margin={{ horizontal: 'xlarge' }}
+                        pad={{ horizontal: 'small', top: 'small', bottom: 'medium' }}
+                        size='small'
+                        background='c4'
+                        elevation='none'
+                        border
+                      >
+                        <Box alignSelf='end'>
+                          <Close size='small' onClick={() => setHash({ exists: false, url: '' })} />
+                        </Box>
+                        <Text>Transaction Receipt</Text>
+                        <Anchor
+                          size='small'
+                          href={hash.url}
+                          target='_blank'
+                            label={size === 'small' ? `${hash.url.substring(hash.url.length - 44)}` : hash.url}
+                        />
+                      </Card>
+                    }
                     <Main />
                     <FooterApp />
                   </>
