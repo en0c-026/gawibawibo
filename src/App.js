@@ -15,6 +15,7 @@ import getConfig from './config';
 const queryParams = new URLSearchParams(window.location.search);
 const initNear = async () => {
   const env = localStorage.getItem('env') || 'testnet'
+  const theme = localStorage.getItem('theme') || 'light'
   console.log(env)
   const keyStore = new keyStores.BrowserLocalStorageKeyStore();
   const config = getConfig(env);
@@ -22,12 +23,12 @@ const initNear = async () => {
   const client = await connect({ keyStore, ...config });
   const wallet = new WalletConnection(client, 'gawibawibo');
 
-  return { wallet, client, config };
+  return { wallet, client, config, theme };
 }
 
 export const appState = proxy({
   env: '',
-  themeMode: 'dark',
+  themeMode: 'light',
   explorerUrl: '',
   isLogged: false,
   accountId: '',
@@ -44,11 +45,12 @@ function App() {
 
   const { themeMode } = useSnapshot(appState);
   useEffect(() => {
-    initNear().then(({ wallet, config }) => {
+    initNear().then(({ wallet, config, theme }) => {
+      appState.themeMode = theme;
       appState.wallet = wallet;
       appState.env = config.networkId;
       appState.explorerUrl = config.explorerUrl;
-
+      
       if (localStorage.getItem('gawibawibo_wallet_auth_key')) {
 
         appState.accountId = wallet.getAccountId()
@@ -122,10 +124,10 @@ function App() {
                         </Box>
                         <Text>Transaction Receipt</Text>
                         <Anchor
-                          size='small'
+                          size='xsmall'
                           href={hash.url}
                           target='_blank'
-                            label={size === 'small' ? `${hash.url.substring(hash.url.length - 44)}` : hash.url}
+                          label={size === 'small' ? `${hash.url.substring(hash.url.length - 44)}` : hash.url}
                         />
                       </Card>
                     }

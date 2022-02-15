@@ -25,7 +25,7 @@ const ConnectBox = ({ size, accountId, wallet, isLogged, explorerUrl }) => {
       ) :
       (
         <Button label={'Connect'} size='small' onClick={() => {
-          wallet.requestSignIn({ successUrl: 'https://en0c-026.github.io/gawibawibo/' })
+          wallet.requestSignIn({ successUrl: 'localhost:3000' })
         }} />
       )
     }
@@ -37,7 +37,7 @@ const ResponsiveMenu = ({ toggleHistory, size }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const toggleMenu = () => setOpenMenu((value) => !value);
 
-  return <Box align='center' justify='end'>
+  return <Box align='center' justify='center'>
     <Button label={<Apps />} size='medium' onClick={toggleMenu} plain />
     {
       openMenu && (
@@ -189,6 +189,7 @@ const Nav = () => {
               }
               options={['dark', 'light']}
               onChange={({ option }) => {
+                localStorage.setItem('theme', option)
                 appState.themeMode = option
               }}
             >
