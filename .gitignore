@@ -5,7 +5,6 @@
 /.pnp
 .pnp.js
 /contract_gbb/target
-/contract_gbb/res/contract_gbb.wasm
 # testing
 /coverage
 
