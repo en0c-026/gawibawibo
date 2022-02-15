@@ -19,7 +19,7 @@ export const History = () => {
       <Text size='small'>winner</Text>
       <Text size='small'>status</Text>
     </Box>
-    <List data={historyMoves} primaryKey='id' paginate={{ size: 'small' }} step={size === 'small' ? 3 : 5}>
+    <List data={historyMoves} primaryKey='id' paginate={{ size: 'small' }} step={size === 'small' ? 2 : 5}>
       {(item) => (
         <Box gap='small' direction={ size === 'small' ? 'column' : 'row'} align='center' justify='between'>
           <Text size='small'>{item.id}</Text>

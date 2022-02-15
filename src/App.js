@@ -50,7 +50,7 @@ function App() {
       appState.wallet = wallet;
       appState.env = config.networkId;
       appState.explorerUrl = config.explorerUrl;
-      
+
       if (localStorage.getItem('gawibawibo_wallet_auth_key')) {
 
         appState.accountId = wallet.getAccountId()
@@ -98,7 +98,7 @@ function App() {
             {
               loading ?
                 (
-                  <Box align='center' pad={{ top: 'xlarge' }} margin={{ top: 'xlarge' }} flex='grow'>
+                  <Box align='center' pad={{ top: 'xlarge' }} margin={{ top: 'xlarge' }}>
                     <Spinner animation={{ type: 'rotateRight', duration: 4000 }} size='xlarge'>
                       <Image src='/gawibawibo/loading.png' />
                     </Spinner>

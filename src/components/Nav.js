@@ -37,19 +37,18 @@ const ResponsiveMenu = ({ toggleHistory, size }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const toggleMenu = () => setOpenMenu((value) => !value);
 
-  return <Box align='center' justify='center'>
+  return <>
     <Button label={<Apps />} size='medium' onClick={toggleMenu} plain />
     {
       openMenu && (
         <Layer
-          position="center"
-          margin="medium"
-          full="vertical"
           modal
+          position='center'
+          full={false}
           onClickOutside={toggleMenu}
           onEsc={toggleMenu}
         >
-          <Box gap='xlarge' align='center' justify='center' pad='medium' fill>
+          <Box gap='xlarge' align='center' justify='center' flex>
             <Close onClick={toggleMenu} size='small' />
             <BoxClaim isLogged={isLogged} contract={contract} unclaimedAmount={unclaimedAmount} />
             <Button
@@ -91,7 +90,7 @@ const ResponsiveMenu = ({ toggleHistory, size }) => {
           </Box>
         </Layer>
       )}
-  </Box>
+  </>
 }
 
 const BoxClaim = ({ isLogged, contract, unclaimedAmount }) => {
@@ -147,11 +146,11 @@ const Nav = () => {
           </Box>
         )}
     </Select>
-    <Box>
+    <>
       {
         openHistory && (
-          <Layer onClickOutside={toggleHistory} onEsc={toggleHistory}>
-            <Box align='center' pad='small' gap='small'>
+          <Layer position='center' modal onClickOutside={toggleHistory} onEsc={toggleHistory}>
+            <Box align='center' justify='center' pad='medium' gap='small' flex>
               <Close onClick={toggleHistory} size='small' />
               <History />
             </Box>
@@ -204,7 +203,7 @@ const Nav = () => {
           </Box>
         )
       }
-    </Box>
+    </>
   </Header >;
 };
 
