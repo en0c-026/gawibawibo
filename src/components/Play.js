@@ -2,6 +2,7 @@ import { Box, Button, Text, TextInput } from 'grommet';
 import React, { useState } from 'react';
 import { utils } from 'near-api-js';
 import { Options } from './Main'
+import { sha256 } from 'js-sha256';
 
 export const Play = ({ playTarget, contract, size }) => {
   const [blends, setBlends] = useState({ b1: "", b2: "", b3: "" });
@@ -10,8 +11,9 @@ export const Play = ({ playTarget, contract, size }) => {
     setBlends({ b1: "", b2: "", b3: "" })
   };
   const handleSubmit = () => {
+    const blend = sha256(Buffer.from([blends.b1, blends.b2, blends.b3]));
     contract.play_move({
-      args: { "id": playTarget.id, "blend_op": [blends.b1, blends.b2, blends.b3] },
+      args: { id: playTarget.id, ha: blend },
       amount: playTarget.amount
     })
   };

@@ -1,4 +1,5 @@
-const CONTRACT_NAME = process.env.CONTRACT_NAME || 'gawibawibo.en0c-test.testnet';
+const CONTRACT_NAME_TESTNET = 'gawibawibo.testnet';
+const CONTRACT_NAME_MAINNET = 'gawibawibo.near';
 
 function getConfig(env) {
   switch (env) {
@@ -6,20 +7,16 @@ function getConfig(env) {
       return {
         networkId: 'mainnet',
         nodeUrl: 'https://rpc.mainnet.near.org',
-        contractName: CONTRACT_NAME,
+        contractName: CONTRACT_NAME_TESTNET,
         walletUrl: 'https://wallet.near.org',
         helperUrl: 'https://helper.mainnet.near.org',
         explorerUrl: "https://explorer.near.org",
       };
-    // This is an example app so production is set to testnet.
-    // You can move production to mainnet if that is applicable.
-    case 'production':
-    case 'development':
     case 'testnet':
       return {
         networkId: 'testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
-        contractName: CONTRACT_NAME,
+        contractName: CONTRACT_NAME_TESTNET,
         walletUrl: 'https://wallet.testnet.near.org',
         helperUrl: 'https://helper.testnet.near.org',
         explorerUrl: "https://explorer.testnet.near.org",
@@ -28,32 +25,9 @@ function getConfig(env) {
       return {
         networkId: 'betanet',
         nodeUrl: 'https://rpc.betanet.near.org',
-        contractName: CONTRACT_NAME,
+        contractName: CONTRACT_NAME_MAINNET,
         walletUrl: 'https://wallet.betanet.near.org',
         helperUrl: 'https://helper.betanet.near.org'
-      };
-    case 'local':
-      return {
-        networkId: 'local',
-        nodeUrl: 'http://localhost:3030',
-        keyPath: `${process.env.HOME}/.near/validator_key.json`,
-        walletUrl: 'http://localhost:4000/wallet',
-        contractName: CONTRACT_NAME
-      };
-    case 'test':
-    case 'ci':
-      return {
-        networkId: 'shared-test',
-        nodeUrl: 'https://rpc.ci-testnet.near.org',
-        contractName: CONTRACT_NAME,
-        masterAccount: 'test.near'
-      };
-    case 'ci-betanet':
-      return {
-        networkId: 'shared-test-staging',
-        nodeUrl: 'https://rpc.ci-betanet.near.org',
-        contractName: CONTRACT_NAME,
-        masterAccount: 'test.near'
       };
     default:
       throw Error(`Unconfigured environment '${env}'. Can be configured in src/config.js.`);

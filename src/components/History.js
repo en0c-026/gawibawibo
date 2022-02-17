@@ -14,7 +14,6 @@ export const History = () => {
       <Text size='small'>id</Text>
       <Text size='small'>owner</Text>
       <Text size='small'>adversary</Text>
-      <Text size='small'>blend</Text>
       <Text size='small'>prize</Text>
       <Text size='small'>winner</Text>
       <Text size='small'>status</Text>
@@ -25,7 +24,6 @@ export const History = () => {
           <Text size='small'>{item.id}</Text>
           <Text size='small'>{item.owner}</Text>
           <Text size='small'>{item.adversary}</Text>
-          <Text size='small'>{item.blend}</Text>
           <Text size='small'>{utils.format.formatNearAmount(item.prize)} NEAR</Text>
           <Text size='small'>{item.winner}</Text>
           <Text size='small'>{item.status}</Text>

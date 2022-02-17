@@ -5,6 +5,15 @@ import { Play } from './Play';
 import { utils } from 'near-api-js';
 import { useSnapshot } from 'valtio';
 import { appState } from '../App';
+import { sha256 } from 'js-sha256';
+
+
+const optionsValues = [
+  process.env.REACT_APP_VALUES_OPTION1,
+  process.env.REACT_APP_VALUES_OPTION2,
+  process.env.REACT_APP_VALUES_OPTION3,
+]
+
 
 const Main = () => {
   const size = useContext(ResponsiveContext);
@@ -28,10 +37,11 @@ const Main = () => {
   };
   const handleSubmit = () => {
     const attachedAmount = utils.format.parseNearAmount(amount);
-    if (parseFloat(balance) > parseFloat(attachedAmount) && parseFloat(amount) > 0.1 && parseFloat(amount) < 1000000) {
+    if (parseFloat(balance) > parseFloat(attachedAmount) && parseFloat(amount) >= 0.1 && parseFloat(amount) <= 1000000) {
       const id = Math.floor(Math.random() * Date.now()) % 4294967296;
+      const blend = sha256(Buffer.from([blends.b1, blends.b2, blends.b3]));
       contract.new_move({
-        args: { id: id, blend: [blends.b1, blends.b2, blends.b3] },
+        args: { id: id, hb: blend },
         amount: attachedAmount
       });
     } else {
@@ -179,9 +189,9 @@ export const Options = ({ blends, setBlends, isLogged }) => {
     <RadioButtonGroup
       name='blend1'
       options={[
-        { label: <Avatar src={'/gawibawibo/rock-icon-grey.png'} size='small' />, value: 'Gawi' },
-        { label: <Avatar src={'/gawibawibo/paper-icon-grey.png'} size='small' />, value: 'Bawi' },
-        { label: <Avatar src={'/gawibawibo/scissors-icon-grey.png'} size='small' />, value: 'Bo' },
+        { label: <Avatar src={'/gawibawibo/rock-icon-grey.png'} size='small' />, value: optionsValues[0] },
+        { label: <Avatar src={'/gawibawibo/paper-icon-grey.png'} size='small' />, value: optionsValues[1] },
+        { label: <Avatar src={'/gawibawibo/scissors-icon-grey.png'} size='small' />, value: optionsValues[2] },
       ]}
       value={blends.b1}
       onChange={(e) => setBlends({ ...blends, b1: e.target.value })}
@@ -191,9 +201,9 @@ export const Options = ({ blends, setBlends, isLogged }) => {
     <RadioButtonGroup
       name='blend2'
       options={[
-        { label: <Avatar src={'/gawibawibo/rock-icon-grey.png'} size='small' />, value: 'Gawi' },
-        { label: <Avatar src={'/gawibawibo/paper-icon-grey.png'} size='small' />, value: 'Bawi' },
-        { label: <Avatar src={'/gawibawibo/scissors-icon-grey.png'} size='small' />, value: 'Bo' },
+        { label: <Avatar src={'/gawibawibo/rock-icon-grey.png'} size='small' />, value: optionsValues[0] },
+        { label: <Avatar src={'/gawibawibo/paper-icon-grey.png'} size='small' />, value: optionsValues[1] },
+        { label: <Avatar src={'/gawibawibo/scissors-icon-grey.png'} size='small' />, value: optionsValues[2] },
       ]}
       value={blends.b2}
       onChange={(e) => setBlends({ ...blends, b2: e.target.value })}
@@ -203,9 +213,9 @@ export const Options = ({ blends, setBlends, isLogged }) => {
     <RadioButtonGroup
       name='blend3'
       options={[
-        { label: <Avatar src={'/gawibawibo/rock-icon-grey.png'} size='small' />, value: 'Gawi' },
-        { label: <Avatar src={'/gawibawibo/paper-icon-grey.png'} size='small' />, value: 'Bawi' },
-        { label: <Avatar src={'/gawibawibo/scissors-icon-grey.png'} size='small' />, value: 'Bo' },
+        { label: <Avatar src={'/gawibawibo/rock-icon-grey.png'} size='small' />, value: optionsValues[0] },
+        { label: <Avatar src={'/gawibawibo/paper-icon-grey.png'} size='small' />, value: optionsValues[1] },
+        { label: <Avatar src={'/gawibawibo/scissors-icon-grey.png'} size='small' />, value: optionsValues[2] },
       ]}
       value={blends.b3}
       onChange={(e) => setBlends({ ...blends, b3: e.target.value })}
