@@ -11,7 +11,7 @@ const FooterApp = () => {
       </Box>
       <Anchor size='xsmall' href="https://github.com/en0c-026" target='_blank' label="by en0c-026" />
       <Text textAlign="center" size="xsmall">
-        ©Copyright
+        ©Copyright 2022
       </Text>
     </Footer>
   )

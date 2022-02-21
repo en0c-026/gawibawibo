@@ -6,6 +6,7 @@ import { utils } from 'near-api-js';
 import { useSnapshot } from 'valtio';
 import { appState } from '../App';
 import { sha256 } from 'js-sha256';
+import { sha3_256 } from 'js-sha3';
 
 
 const optionsValues = [
@@ -39,9 +40,11 @@ const Main = () => {
     const attachedAmount = utils.format.parseNearAmount(amount);
     if (parseFloat(balance) > parseFloat(attachedAmount) && parseFloat(amount) >= 0.1 && parseFloat(amount) <= 1000000) {
       const id = Math.floor(Math.random() * Date.now()) % 4294967296;
-      const blend = sha256(Buffer.from([blends.b1, blends.b2, blends.b3]));
+      const { allKeys } = JSON.parse(localStorage.getItem('gawibawibo_wallet_auth_key'));
+      const b_signature = sha3_256(blends.b1 + blends.b2 + blends.b3).slice(0, 10)
+      const blend = sha256(b_signature + allKeys[0]);
       contract.new_move({
-        args: { id: id, hb: blend },
+        args: { id: id.toString(), hb: blend },
         amount: attachedAmount
       });
     } else {
@@ -67,15 +70,15 @@ const Main = () => {
       border={{ color: 'c2' }}
       fill
     >
-      <Text>Make a new move!</Text>
-      <Text>Chooise a blend:</Text>
+      <Text>make a new move!</Text>
+      <Text>chooise a blend:</Text>
       <Options blends={blends} setBlends={setBlends} isLogged={isLogged} />
       {
         errorBalance &&
         <Notification title="Insufficient balance" status='warning' onClose={() => { setErrorBalance(false) }} />
       }
       <Box direction='row' align='center' gap='small'>
-        <Text margin={{ right: 'medium' }}>Amount</Text>
+        <Text margin={{ right: 'medium' }}>amount</Text>
         <TextInput
           disabled={isLogged ? false : true}
           type='number'

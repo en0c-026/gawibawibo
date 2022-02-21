@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Grommet, ResponsiveContext, Spinner, Image, Box, Card, Anchor, Text } from 'grommet';
 import { Close } from 'grommet-icons';
 import { theme } from './layout/theme';
-import { keyStores, connect, Near, WalletConnection, Contract } from 'near-api-js';
+import { keyStores, connect, Near, WalletConnection, Contract, KeyPair } from 'near-api-js';
 import { useSnapshot } from 'valtio';
 import Nav from './components/Nav';
 import Container from './components/Container';

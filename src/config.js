@@ -12,6 +12,7 @@ function getConfig(env) {
         helperUrl: 'https://helper.mainnet.near.org',
         explorerUrl: "https://explorer.near.org",
       };
+    case 'development':
     case 'testnet':
       return {
         networkId: 'testnet',

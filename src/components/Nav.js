@@ -18,13 +18,13 @@ const ConnectBox = ({ size, accountId, wallet, isLogged, explorerUrl }) => {
       />}
     {isLogged ?
       (
-        <Button label={'Disconnect'} size='small' onClick={() => {
+        <Button label={'disconnect'} size='small' onClick={() => {
           localStorage.removeItem('gawibawibo_wallet_auth_key');
           window.location.reload()
         }} />
       ) :
       (
-        <Button label={'Connect'} size='small' onClick={() => {
+        <Button label={'connect'} size='small' onClick={() => {
           wallet.requestSignIn({ successUrl: 'https://en0c-026.github.io/gawibawibo/' })
         }} />
       )

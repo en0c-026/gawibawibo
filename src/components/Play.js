@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { utils } from 'near-api-js';
 import { Options } from './Main'
 import { sha256 } from 'js-sha256';
+import { sha3_256 } from 'js-sha3';
 
 export const Play = ({ playTarget, contract, size }) => {
   const [blends, setBlends] = useState({ b1: "", b2: "", b3: "" });
@@ -11,7 +12,9 @@ export const Play = ({ playTarget, contract, size }) => {
     setBlends({ b1: "", b2: "", b3: "" })
   };
   const handleSubmit = () => {
-    const blend = sha256(Buffer.from([blends.b1, blends.b2, blends.b3]));
+    const { allKeys } = JSON.parse(localStorage.getItem('gawibawibo_wallet_auth_key'));
+    const b_signature = sha3_256(blends.b1 + blends.b2 + blends.b3).slice(0, 10)
+    const blend = sha256(b_signature + allKeys[0]);
     contract.play_move({
       args: { id: playTarget.id, ha: blend },
       amount: playTarget.amount
