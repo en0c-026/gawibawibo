@@ -1,70 +1,73 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Inspiration
 
-## Available Scripts
+The inspiration arose from the question what to build? keep it simple, fun and original!
+Thinking... the idea of ​​the game Gawi, bawi, bo came up... as it is known in Korea. Or rock, paper or scissors as it is called in the West.
+Reflecting on the structure of this game, I came to the conclusion that it is relative!
 
-In the project directory, you can run:
+The option you choose is winning and losing at the same time, until the moment your opponent makes his move and they are compared.
+There just takes a state of possible. Something like a quantum physics experiment!
 
-### `npm start`
+The game is perfectly balanced, all move options have the same weight.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Gawi beats Bo and loses to Bawi,
+Bawi beats Gawi and loses to Bo,
+Bo beats Bawi and loses to Gawi.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+This led me to develop this idea to present it in this hackathon..
 
-### `npm test`
+## What it does
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The game allows you to create a new move, choose a combination of three options and set your desired prize.
+You can also take an existing move, sending your combination and the prize deposit chosen by the owner of the move.
 
-### `npm run build`
+When an opponent takes an existing move, the Play function is called, and it compares each option by hand.
+The best of 3 hands wins and takes all the deposits in the move.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+If the move is tied, it is canceled and the funds are refunded.
+You can also view your move history and cancel an unplayed move.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## How we built it
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The game is made up of a login system, you need a NEAR account to play.
+Then we have two main panels, the first is to create a new move and set up a desired prize.
+The second panel is the unplayed moves panel, here players can see their created moves or that of other players.
+If it's your own move, you get the option to cancel the move, otherwise you get the option to take the move.
+There appears another panel that allows you to choose your combination and send the same amount that the owner of the movement configured.
 
-### `npm run eject`
+On the other hand we have the my moves history, where is the record of each move you created or played.
+And finally there is the unclaimed amount box where your earned or refunded NEAR tokens appear.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Challenges we ran into
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+I faced two main challenges
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The first one how to write the logic of the game to compare combination options at the same time and in a safe way.
+After rewriting it 3 or 4 times, it was left in a clear and functional way, thus achieving the desired objective.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+And the second and more difficult challenge was how to encrypt the data sent in the transaction, in order to prevent malicious people,
+Guess the combination of a move, stealing the funds or winning by cheating.
+After much thought, I was able to do it and I can say that the game is totally safe.
+There is no way to second-guess a move and dishonestly take advantage.
 
-## Learn More
+To be honest, the way it is written is based on my experience with the Near and Rust libraries, what I learned during this hackathon.
+I guess a more experienced NEAR coder can use a better approach or improve on this one.
+Beyond that, as it is written now it is impossible to compromise by cheating or stealing funds, check it out!
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Accomplishments that we're proud of
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Have finished the minimum viable product for delivery.
+- Being able to implement a solution to a game that I hadn't thought of before, within the limits of time.
+- Have implemented a traditional game to the code and the NEAR block chain, in a simple and fun way!
+- Grateful to God for the inspiration and intelligence to be able to face this challenge.
 
-### Code Splitting
+## What we learned
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Using the NEAR libraries, the first time for me writing on this network.
+- The importance of encrypting the data sent in a transaction to ensure security.
 
-### Analyzing the Bundle Size
+## What's next for GawiBawiBo Game
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Implement a complete ranking of best players, most earned, most money earned, etc.
+- Add NFT logic for prizes and rewards.
+- And any ideas that come up in the near future applicable to this beautiful traditional game.

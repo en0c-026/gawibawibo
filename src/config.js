@@ -3,16 +3,16 @@ const CONTRACT_NAME_MAINNET = 'gawibawibo.near';
 
 function getConfig(env) {
   switch (env) {
+    case 'development':
     case 'mainnet':
       return {
         networkId: 'mainnet',
         nodeUrl: 'https://rpc.mainnet.near.org',
-        contractName: CONTRACT_NAME_TESTNET,
+        contractName: CONTRACT_NAME_MAINNET,
         walletUrl: 'https://wallet.near.org',
         helperUrl: 'https://helper.mainnet.near.org',
         explorerUrl: "https://explorer.near.org",
       };
-    case 'development':
     case 'testnet':
       return {
         networkId: 'testnet',

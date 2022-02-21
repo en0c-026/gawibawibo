@@ -53,7 +53,7 @@ const ResponsiveMenu = ({ toggleHistory, size }) => {
             <BoxClaim isLogged={isLogged} contract={contract} unclaimedAmount={unclaimedAmount} />
             <Button
               disabled={isLogged ? false : true}
-              label='my history moves'
+              label='my moves history'
               size='small'
               margin={{ horizontal: 'large' }}
               onClick={toggleHistory}
@@ -165,7 +165,7 @@ const Nav = () => {
             <BoxClaim isLogged={isLogged} contract={contract} unclaimedAmount={unclaimedAmount} />
             <Button
               disabled={isLogged ? false : true}
-              label='my history moves'
+                label='my moves history'
               size='small'
               onClick={toggleHistory}
               margin={{ horizontal: size === 'medium' ? 'small' : 'medium' }}
