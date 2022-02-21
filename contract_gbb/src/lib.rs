@@ -3,83 +3,130 @@ use near_sdk::collections::{LookupMap, UnorderedMap, UnorderedSet};
 use near_sdk::json_types::U128;
 use near_sdk::serde::{Deserialize, Serialize};
 use near_sdk::{env, log, near_bindgen, AccountId, PanicOnDefault, Promise};
+use hex::encode;
+use std::convert::TryFrom;
 
 
-fn get_b_nums (h: String, bn: &u64) -> Vec<u64> {
+fn get_b_nums (pk: String, hb: String) -> Vec<u64> {
   let n_blend: Vec<u64> = vec![147, 258, 369];
+  let ops = vec![
+  "a8241dee1b",
+  "9c3ef738a5",
+  "9c4bea65e9",
+  "038e16cdf9",
+  "481ddbfbe9",
+  "69343e02fa",
+  "1af577cdd3",
+  "f070fae536",
+  "686690db1f",
+  "f611d744c5",
+  "444c34bf26",
+  "5463570d5e",
+  "8aa9d396ea",
+  "76a27a71ee",
+  "41f3de6eed",
+  "d999fb7fe8",
+  "8792ba8121",
+  "68d0ea14ef",
+  "c11af4a478",
+  "823f07b380",
+  "4432146540",
+  "0f1514d671",
+  "62d63583cb"
+  ];
 
-  match h.as_str() {
-    "fa0c01259f28be0e8e306f38ab3b29723fb4d55a48dc654f83b11d1eba61962f" => {
-      vec![n_blend[0] * bn, n_blend[0] * bn, n_blend[0] * bn]
+  let ops_h: Vec<String> = ops
+  .clone()
+  .into_iter()
+  .map(|o| {
+    let path = format!("{}{}", o, pk);
+    let hash_path = env::sha256(path.as_bytes());
+    encode(hash_path)
+  })
+  .collect();
+
+
+  let mut pattern = "";
+
+  for (i, o) in ops_h.clone().into_iter().enumerate() {
+    if o == hb {
+      pattern = ops[i];
+    }
+  }
+
+  match pattern {
+    "a8241dee1b" => {
+      vec![n_blend[0], n_blend[0], n_blend[0]]
     },
-    "44dc982c19c9d9dca8181e2dcfa6a830143e8f65e31a77899c337368321f8a37" => {
-      vec![n_blend[1] * bn, n_blend[0] * bn, n_blend[0] * bn]
+    "9c3ef738a5" => {
+      vec![n_blend[1], n_blend[0], n_blend[0]]
     },
-    "e41282ff8c095dda4fe837c81a497ccb843ab7d0c6d8f36e7299c0ed0361ca6d" => {
-      vec![n_blend[2] * bn, n_blend[0] * bn, n_blend[0] * bn]
+    "9c4bea65e9" => {
+      vec![n_blend[2], n_blend[0], n_blend[0]]
     },
-    "47e0aec339f6df2d4eb14bdbe77668d3e21aff6c0eb7c328a466addfc37c81c1" => {
-      vec![n_blend[0] * bn, n_blend[1] * bn, n_blend[0] * bn]
+    "038e16cdf9" => {
+      vec![n_blend[0], n_blend[1], n_blend[0]]
     },
-    "3b4a70b36764cfc016cacdb8097c85fcb21c38fe1e7c835d72db2c54b88ce161" => {
-      vec![n_blend[0] * bn, n_blend[2] * bn, n_blend[0] * bn]
+    "481ddbfbe9" => {
+      vec![n_blend[0], n_blend[2], n_blend[0]]
     },
-    "000800590e60416392e917a0769a38250157669b1b6e2d43a5ce92dce7189ea8" => {
-      vec![n_blend[0] * bn, n_blend[0] * bn, n_blend[1] * bn]
+    "69343e02fa" => {
+      vec![n_blend[0], n_blend[0], n_blend[1]]
     },
-    "fca723e9b333b3adc65cd365ae84bf5af940d12016fdfc8d04ebcf099a6b4e4a" => {
-      vec![n_blend[0] * bn, n_blend[0] * bn, n_blend[2] * bn]
+    "1af577cdd3" => {
+      vec![n_blend[0], n_blend[0], n_blend[2]]
     },
-    "2c116d02a0b40a5f5d8e42105d424daf086921fd814790ae7a06c913f070e910" => {
-      vec![n_blend[1] * bn, n_blend[1] * bn, n_blend[1] * bn]
+    "f070fae536" => {
+      vec![n_blend[1], n_blend[1], n_blend[1]]
     },
-    "d0a8563d5354a25399c537f8d7fc7d23d1dad3377e7b0d267dcdf61707a79bc8" => {
-      vec![n_blend[0] * bn, n_blend[1] * bn, n_blend[1] * bn]
+    "686690db1f" => {
+      vec![n_blend[0], n_blend[1], n_blend[1]]
     },
-    "6dab46bb11f021e53f0e42a02843dcc405029757ab5eb2d2964ec47f237b20d5" => {
-      vec![n_blend[2] * bn, n_blend[1] * bn, n_blend[1] * bn]
+    "f611d744c5" => {
+      vec![n_blend[2], n_blend[1], n_blend[1]]
     },
-    "6556148c9afafb9477ff63904af5eef2dd0eb7aeccc87239cf829c5544d92e3f" => {
-      vec![n_blend[1] * bn, n_blend[0] * bn, n_blend[1] * bn]
+    "444c34bf26" => {
+      vec![n_blend[1], n_blend[0], n_blend[1]]
     },
-    "ab862c70f31955a6b7a13052b6d51a7caa293a5b3cc98027b568c3ee355a7656" => {
-      vec![n_blend[1] * bn, n_blend[2] * bn, n_blend[1] * bn]
+    "5463570d5e" => {
+      vec![n_blend[1], n_blend[2], n_blend[1]]
     },
-    "db8917d105fddf904e6cce0cc810762e824fb21f680ef17260008e735e33a7ea" => {
-      vec![n_blend[1] * bn, n_blend[1] * bn, n_blend[0] * bn]
+    "8aa9d396ea" => {
+      vec![n_blend[1], n_blend[1], n_blend[0]]
     },
-    "e2e4b1bf60e66c63e7de4d8640c6619600616861b7f7e07874b88f23b9040afb" => {
-      vec![n_blend[1] * bn, n_blend[1] * bn, n_blend[2] * bn]
+    "76a27a71ee" => {
+      vec![n_blend[1], n_blend[1], n_blend[2]]
     },
-    "ada9adc945a4a8ee19e81c15a2c1e9e05d2678e52ee785edefbe76c7ade21876" => {
-      vec![n_blend[2] * bn, n_blend[2] * bn, n_blend[2] * bn]
+    "41f3de6eed" => {
+      vec![n_blend[2], n_blend[2], n_blend[2]]
     },
-    "0c94883eb82fa680c11daadbe6e6405dfe10a2c37d5795c5c7aabb4090fd2377" => {
-      vec![n_blend[0] * bn, n_blend[2] * bn, n_blend[2] * bn]
+    "d999fb7fe8" => {
+      vec![n_blend[0], n_blend[2], n_blend[2]]
     },
-    "1971c0ac93f5c80dade4a8aa0ba04fe477acc3de66b3b75c0411e4158a27c63b" => {
-      vec![n_blend[1] * bn, n_blend[2] * bn, n_blend[2] * bn]
+    "8792ba8121" => {
+      vec![n_blend[1], n_blend[2], n_blend[2]]
     },
-    "bb3f7e1fc680cad49db000e0f8623a836971e3d032abfcbfca8a7780eef4c436" => {
-      vec![n_blend[2] * bn, n_blend[0] * bn, n_blend[2] * bn]
+    "68d0ea14ef" => {
+      vec![n_blend[2], n_blend[0], n_blend[2]]
     },
-    "02f7e167ad84c7592a64e527fad353f4bafd24211404ef46c1c058f2b31f0972" => {
-      vec![n_blend[2] * bn, n_blend[1] * bn, n_blend[2] * bn]
+    "c11af4a478" => {
+      vec![n_blend[2], n_blend[1], n_blend[2]]
     },
-    "e8335c0f96176b48c4095476243d5640f55e673f485fd1186b3d80681ebc90e4" => {
-      vec![n_blend[2] * bn, n_blend[2] * bn, n_blend[0] * bn]
+    "823f07b380" => {
+      vec![n_blend[2], n_blend[2], n_blend[0]]
     },
-    "fbf1a3305ea72211175fa7a19d7c21e2085b1c7b54bc47ba4e6c2d6e82bc2fa5" => {
-      vec![n_blend[2] * bn, n_blend[2] * bn, n_blend[1] * bn]
+    "4432146540" => {
+      vec![n_blend[2], n_blend[2], n_blend[1]]
     },
-    "1d521f4b205cc932b953b50d4295206068d23045524c2a9962314b3f4d03c300" => {
-      vec![n_blend[0] * bn, n_blend[1] * bn, n_blend[2] * bn]
+    "0f1514d671" => {
+      vec![n_blend[0], n_blend[1], n_blend[2]]
     },
-    "24a22c07845efb885b970a8d4ec4d7667d8a40ae88684170b1a797b4c1f2271f" => {
-      vec![n_blend[2] * bn, n_blend[1] * bn, n_blend[0] * bn]
+    "62d63583cb" => {
+      vec![n_blend[2], n_blend[1], n_blend[0]]
     },
     _ => vec![0, 0 ,0]
   }
+
 }
 
 #[derive(BorshDeserialize, BorshSerialize, Deserialize, Serialize, Debug, PartialEq)]
@@ -94,7 +141,7 @@ pub enum MoveStatus {
 #[derive(BorshDeserialize, BorshSerialize, Debug, Deserialize, Serialize, PartialEq)]
 #[serde(crate = "near_sdk::serde")]
 pub struct MoveUnplayed {
-    id: u32,
+    id: String,
     owner: AccountId,
     prize: U128,
 }
@@ -102,24 +149,24 @@ pub struct MoveUnplayed {
 #[derive(BorshDeserialize, BorshSerialize, Debug, Deserialize, Serialize, PartialEq)]
 #[serde(crate = "near_sdk::serde")]
 pub struct Move {
-    id: u32,
+    id: String,
     owner: AccountId,
     status: MoveStatus,
     hb: String,
-    bn: Option<u64>,
+    pk: Option<String>,
     prize: U128,
     adversary: Option<AccountId>,
     winner: Option<AccountId>,
 }
 
 impl Move {
-    pub fn new(id: u32, owner: AccountId, hb: String, bn: Option<u64>, prize: U128) -> Self {
+    pub fn new(id: String, owner: AccountId, hb: String, pk: Option<String>, prize: U128) -> Self {
         Self {
             id,
             owner,
             status: MoveStatus::Unplayed,
             hb,
-            bn,
+            pk,
             prize,
             adversary: None,
             winner: None,
@@ -131,8 +178,8 @@ impl Move {
 #[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
 pub struct GawiBawiBo {
     owner_id: AccountId,
-    moves: UnorderedMap<u32, Move>,
-    unplayed_moves: UnorderedSet<u32>,
+    moves: UnorderedMap<String, Move>,
+    unplayed_moves: UnorderedSet<String>,
     unclaimed_amount: LookupMap<AccountId, U128>,
 }
 
@@ -148,12 +195,13 @@ impl GawiBawiBo {
         }
     }
     #[payable]
-    pub fn new_move(&mut self, id: u32, hb: String) {
+    pub fn new_move(&mut self, id: String, hb: String) {
         let account_id = env::predecessor_account_id();
         let attached_amount = env::attached_deposit();
         assert!(self.moves.get(&id).is_none(), "MOVE_ID_ALREADY_EXISTS");
-        let bn = env::block_height();
-        let new_move = Move::new(id, account_id, hb, Some(bn), U128(attached_amount));
+        let pk_bytes = env::signer_account_pk();
+        let pk_string = String::try_from(&pk_bytes).unwrap();
+        let new_move = Move::new(id.clone(), account_id, hb, Some(pk_string), U128(attached_amount));
         self.moves.insert(&id, &new_move);
         self.unplayed_moves.insert(&id);
     }
@@ -161,22 +209,24 @@ impl GawiBawiBo {
         let values = self
             .moves
             .values()
-            .map(|m| Move {
-              id: m.id,
-              owner: m.owner,
-              status: m.status,
-              hb: m.hb,
-              bn: None,
-              prize: m.prize,
-              adversary: m.adversary,
-              winner: m.winner,
+            .map(|m| {
+              Move {
+                id: m.id,
+                owner: m.owner,
+                status: m.status,
+                hb: m.hb,
+                pk: None,
+                prize: m.prize,
+                adversary: m.adversary,
+                winner: m.winner
+              }
             })
             .filter(|m| m.owner == account_id || m.winner == Some(account_id.clone()) || m.adversary == Some(account_id.clone()))
             .filter(|m| m.status == MoveStatus::Played || m.status == MoveStatus::Cancelled || m.status == MoveStatus::Tied)
             .collect();
         values
     }
-    pub fn cancel_move(&mut self, id: &u32) {
+    pub fn cancel_move(&mut self, id: &String) {
         assert!(
             self.unplayed_moves.contains(&id),
             "MOVE_DONT_EXISTS_OR_PLAYED"
@@ -204,7 +254,7 @@ impl GawiBawiBo {
         values
     }
     #[payable]
-    pub fn play_move(&mut self, id: &u32, ha: String) {
+    pub fn play_move(&mut self, id: &String, ha: String) {
         assert!(
             self.unplayed_moves.contains(id),
             "MOVE_DONT_EXISTS_OR_PLAYED"
@@ -218,25 +268,27 @@ impl GawiBawiBo {
         }
         assert_eq!(target_move.status, MoveStatus::Unplayed, "MOVE_PLAYED");
         assert_eq!(target_move.prize, U128(attached_amount), "DEPOSIT_MUST_EQUAL_PRIZE");
-        
+        let a_pk_bytes = env::signer_account_pk();
+        let a_pk_string = String::try_from(&a_pk_bytes).unwrap();
         let mut move_updated = Move::new(
           target_move.id.clone(),
           target_move.owner.clone(),
           target_move.hb.clone(),
-          target_move.bn.clone(),
+          target_move.pk.clone(),
           target_move.prize.clone(),
+
         );
         
         move_updated.adversary = Some(adv_account_id.clone());
 
         let mut counter_game = [0, 0];
-        let b_o = get_b_nums(target_move.hb, &target_move.bn.unwrap());
-        let b_a = get_b_nums(ha, &target_move.bn.unwrap());
+        let b_o = get_b_nums(target_move.pk.unwrap(), target_move.hb);
+        let b_a = get_b_nums(a_pk_string, ha);
 
 
         for (i, val) in b_o.iter().enumerate() {
-            let op_o = val.clone() / target_move.bn.unwrap();
-            let op_a = b_a[i].clone() / target_move.bn.unwrap();
+            let op_o = val.clone();
+            let op_a = b_a[i].clone();
 
             let g = [op_o, op_a];
 
