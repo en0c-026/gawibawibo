@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/gawibawibo/static/js/main.fe4568d7.js",
+    "main.js": "/gawibawibo/static/js/main.495855a3.js",
     "index.html": "/gawibawibo/index.html",
-    "main.fe4568d7.js.map": "/gawibawibo/static/js/main.fe4568d7.js.map"
+    "main.495855a3.js.map": "/gawibawibo/static/js/main.495855a3.js.map"
   },
   "entrypoints": [
-    "static/js/main.fe4568d7.js"
+    "static/js/main.495855a3.js"
   ]
 }
