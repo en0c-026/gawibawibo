@@ -227,6 +227,7 @@ dependencies = [
 name = "contract_gbb"
 version = "0.1.0"
 dependencies = [
+ "hex",
  "near-sdk",
 ]
 
